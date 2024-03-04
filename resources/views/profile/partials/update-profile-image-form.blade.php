@@ -23,8 +23,10 @@
         </label>
         <div class="flex items-center gap-4">
             <button type="submit" class="px-4 py-2 text-sm text-white bg-indigo-600 rounded">Submit</button>
-            <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)" class="text-sm text-gray-600">
-                Saved</p>
+            @if (session('status') === 'image-updated')
+                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)" class="text-sm text-gray-600">
+                    Saved</p>
+            @endif
         </div>
 
 
