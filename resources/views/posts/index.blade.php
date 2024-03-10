@@ -40,5 +40,7 @@
         </div>
         <hr />
     @endforeach
+    <br>
+    {{ $posts->links() }}
 
 </x-microblog.layout>
