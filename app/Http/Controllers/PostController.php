@@ -43,11 +43,13 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id, $locale = 'en')
+    public function show(Post $post, $locale = 'en')
     {
         // return $id;
         App::setLocale($locale);
-        return view('posts.show');
+        return view('posts.show', [
+            'post' => $post
+        ]);
     }
 
     /**

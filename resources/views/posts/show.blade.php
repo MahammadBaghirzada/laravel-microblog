@@ -4,17 +4,16 @@
     </x-slot:title>
     <div class="my-14 flex flex-col">
         <div class="text-center">
-            <p class="text-gray-500">18/08/2023</p>
-            <p class="italic text-sm">by Adam Smith <img class="ml-2 object-scale-down h-14 w-14 rounded-full inline"
-                                                         src="http://laravel-microblog.test/images/man.png" alt="profile image"></p>
+            <p class="text-gray-500">{{ $post->created_at->format('d M Y') }}</p>
+            <p class="italic text-sm">by {{ $post->user->name }} <img class="ml-2 object-scale-down h-14 w-14 rounded-full inline"
+                                                                      src="http://laravel-microblog.test/images/man.png" alt="profile image"></p>
 
-            <h1 class="mb-10 text-6xl font-bold tracking-tighter mt-5">Post title</h1>
+            <h1 class="mb-10 text-6xl font-bold tracking-tighter mt-5">{{ $post->title }}</h1>
             <hr>
         </div>
 
         <p class="text-gray-500 mt-10 leading-8">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet blanditiis totam repudiandae, eligendi aut
-            dignissimos aspernatur repellat at voluptate veritatis.
+            {{ $post->content }}
         </p>
 
         <div class="flex mt-10">
@@ -41,14 +40,14 @@
                 </a>
                 (3)
             </div>
+            @if (Auth::user() && Auth::user()->id != $post->user->id)
+                You follow:&nbsp;<a class="text-green-500 hover:text-green-700" href="{{ route('posts.user', $post->user->id) }}">
+                    {{ $post->user->name }}</a>
 
-            You follow:&nbsp;<a class="text-green-500 hover:text-green-700" href="{{ route('posts.user', 1) }}">
-                John Smith</a>
-
-            <a href="{{ route('toggleFollow', 1) }}"
-               class="ml-3 inline font-bold text-sm px-6 py-2 text-white rounded bg-blue-500 hover:bg-blue-600">
-                {{ __('Follow the post author') }}</a>
-
+                <a href="{{ route('toggleFollow', $post->user) }}"
+                   class="ml-3 inline font-bold text-sm px-6 py-2 text-white rounded bg-blue-500 hover:bg-blue-600">
+                    {{ __('Follow the post author') }}</a>
+            @endif
         </div>
 
     </div>
