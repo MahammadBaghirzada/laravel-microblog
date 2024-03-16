@@ -9,7 +9,7 @@
         </p>
     </header>
 
-    <img src="http://laravel-microblog.test/images/man.png" alt="profile image">
+    <img src="{{ asset('storage/' . $user->image?->path) }}" alt="profile image">
 
     <form action="{{ route('profile.image') }}" method="POST" class="p-4" enctype="multipart/form-data">
         @csrf

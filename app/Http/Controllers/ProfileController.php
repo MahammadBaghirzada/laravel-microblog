@@ -65,7 +65,11 @@ class ProfileController extends Controller
             'image' => ['required', 'image', 'mimes:jpg,png,jpeg,gif,svg', 'max:2048'],
         ]);
 
-        $image_path = $request->file('image');
+        if ($request->user()->image?->path) {
+            unlink(storage_path('app/public/' . $request->user()->image->path));
+        }
+
+        $image_path = $request->file('image')->store('images', 'public');
         $image = new Image(['path' => $image_path]);
         $request->user()->image()->delete();
         $request->user()->image()->save($image);

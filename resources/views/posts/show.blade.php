@@ -6,7 +6,7 @@
         <div class="text-center">
             <p class="text-gray-500">{{ $post->created_at->format('d M Y') }}</p>
             <p class="italic text-sm">by {{ $post->user->name }} <img class="ml-2 object-scale-down h-14 w-14 rounded-full inline"
-                                                                      src="http://laravel-microblog.test/images/man.png" alt="profile image"></p>
+                                                                      src="{{ asset('storage/' . $post->user->image?->path) }}" alt="profile image"></p>
 
             <h1 class="mb-10 text-6xl font-bold tracking-tighter mt-5">{{ $post->title }}</h1>
             <hr>
