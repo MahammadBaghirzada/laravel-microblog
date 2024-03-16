@@ -23,7 +23,7 @@
                         </div>
                         <div x-show="tab === 1"><b>People that follow you:</b>
                             <ul>
-                                <li><a class="hover:text-stone-500" href="{{ route('posts.index') }}">John Smith</a>
+                                <li><a class="hover:text-stone-500" href="{{ route('posts.user', 1) }}">John Smith</a>
                                 </li>
                             </ul>
                         </div>

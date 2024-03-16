@@ -4,7 +4,7 @@
     </x-slot:title>
     {{-- latest posts --}}
     <div class="my-14">
-        <h1 class="text-6xl tracking-tighter font-bold mb-6">Latest posts </h1>
+        <h1 class="text-6xl tracking-tighter font-bold mb-6">Latest posts {{ $user ?? null }}</h1>
         <p class="mb-8 text-gray-500">A blog created with Laravel and Tailwind CSS
         </p>
         <hr />

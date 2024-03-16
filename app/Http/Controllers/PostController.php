@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
@@ -88,9 +89,12 @@ class PostController extends Controller
 
     public function user($id, $locale = 'en')
     {
-        //return $id;
+        $user = User::query()->find($id);
         App::setLocale($locale);
-        return view('posts.index');
+        return view('posts.index', [
+            'posts' => Post::query()->with('user')->where('user_id', $id)->paginate(3),
+            'user' => $user->name
+        ]);
     }
 
     public function toggleFollow($id)
