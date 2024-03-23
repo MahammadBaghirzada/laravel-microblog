@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -61,7 +62,7 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'followers', 'following_id', 'follower_id');
     }
 
-    public function following()
+    public function following(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'followers', 'follower_id', 'following_id');
     }
@@ -71,5 +72,15 @@ class User extends Authenticatable
         return $this->following()
             ->where('following_id', $user->getKey())
             ->exists();
+    }
+
+    public function likedPosts(): MorphToMany
+    {
+        return $this->morphedByMany(Post::class, 'likeable');
+    }
+
+    public function dislikedPosts(): MorphToMany
+    {
+        return $this->morphedByMany(Post::class, 'dislikeable');
     }
 }
