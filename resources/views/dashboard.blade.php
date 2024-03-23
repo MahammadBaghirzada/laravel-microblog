@@ -23,16 +23,20 @@
                         </div>
                         <div x-show="tab === 1"><b>People that follow you:</b>
                             <ul>
-                                <li><a class="hover:text-stone-500" href="{{ route('posts.index') }}">John Smith</a>
-                                </li>
+                                @foreach (Auth::user()->followers()->get() as $follower)
+                                    <li><a class="hover:text-stone-500" href="{{ route('posts.user', $follower->id) }}">{{ $follower->name }}</a>
+                                    </li>
+                                @endforeach
                             </ul>
                         </div>
                         <div x-show="tab === 2"><b>People that you follow:</b>
                             <ul class="space-y-4">
-                                <li><a class="hover:text-stone-500" href="{{ route('posts.user', 1) }}">Jane Doe</a><a
-                                        href="{{ route('toggleFollow', 1) }}"
-                                        class="ml-3 inline font-bold text-sm px-4 py-1 text-white rounded bg-blue-500 hover:bg-blue-600">
-                                        {{ __('Unfollow') }}</a></li>
+                                @foreach (Auth::user()->following()->get() as $following)
+                                    <li><a class="hover:text-stone-500" href="{{ route('posts.user', $following->id) }}">{{ $following->name }}</a><a
+                                            href="{{ route('toggleFollow', $following) }}"
+                                            class="ml-3 inline font-bold text-sm px-4 py-1 text-white rounded bg-blue-500 hover:bg-blue-600">
+                                            {{ __('Unfollow') }}</a></li>
+                                @endforeach
                             </ul>
                         </div>
                         <div x-show="tab === 3"><b>Posts you liked:</b>

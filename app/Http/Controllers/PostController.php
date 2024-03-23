@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
@@ -12,7 +14,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('posts.index');
+        return view('posts.index', [
+            'posts' => Post::query()->with('user')->paginate(3)
+        ]);
     }
 
     /**
@@ -33,36 +37,43 @@ class PostController extends Controller
             'content' => ['required', 'string', 'max:1000'],
         ]);
 
-        return $validated;
+        $request->user()->posts()->create($validated);
+        return redirect(route('posts.index'));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id, $locale = 'en')
+    public function show(Post $post, $locale = 'en')
     {
         // return $id;
         App::setLocale($locale);
-        return view('posts.show');
+        return view('posts.show', [
+            'post' => $post
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Post $post)
     {
-        return view('posts.edit');
+        return view('posts.edit', [
+            'post' => $post
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Post $post)
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:20'],
             'content' => ['required', 'string', 'max:1000'],
         ]);
+
+        $post->update($validated);
 
         return redirect(route('posts.index'));
     }
@@ -70,21 +81,30 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Post $post)
     {
-        return 'destroy post from the database';
+        $post->delete();
+        return redirect(route('posts.index'));
     }
 
     public function user($id, $locale = 'en')
     {
-        //return $id;
+        $user = User::query()->find($id);
         App::setLocale($locale);
-        return view('posts.index');
+        return view('posts.index', [
+            'posts' => Post::query()->with('user')->where('user_id', $id)->paginate(3),
+            'user' => $user->name
+        ]);
     }
 
-    public function toggleFollow($id)
+    public function toggleFollow(Request $request, User $user)
     {
-        //return $id;
-        return 'logic for toggling like/dislike functionality';
+        $loggedInUser = auth()->user();
+        if ($loggedInUser->isFollowing($user)) {
+            $loggedInUser->following()->detach($user);
+        } else {
+            $loggedInUser->following()->attach($user);
+        }
+        return back();
     }
 }
