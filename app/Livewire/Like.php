@@ -6,6 +6,7 @@ use Livewire\Component;
 
 class Like extends Component
 {
+    public $post;
     public $likes;
     public $dislikes;
 
