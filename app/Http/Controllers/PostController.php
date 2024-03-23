@@ -97,9 +97,14 @@ class PostController extends Controller
         ]);
     }
 
-    public function toggleFollow($id)
+    public function toggleFollow(Request $request, User $user)
     {
-        //return $id;
-        return 'logic for toggling like/dislike functionality';
+        $loggedInUser = auth()->user();
+        if ($loggedInUser->isFollowing($user)) {
+            $loggedInUser->following()->detach($user);
+        } else {
+            $loggedInUser->following()->attach($user);
+        }
+        return back();
     }
 }
