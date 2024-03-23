@@ -41,12 +41,14 @@
                 (3)
             </div>
             @if (Auth::user() && Auth::user()->id != $post->user->id)
-                You follow:&nbsp;<a class="text-green-500 hover:text-green-700" href="{{ route('posts.user', $post->user->id) }}">
-                    {{ $post->user->name }}</a>
-
-                <a href="{{ route('toggleFollow', $post->user) }}"
-                   class="ml-3 inline font-bold text-sm px-6 py-2 text-white rounded bg-blue-500 hover:bg-blue-600">
-                    {{ __('Follow the post author') }}</a>
+                @if (Auth::user()->isFollowing($post->user))
+                    You follow:&nbsp;<a class="text-green-500 hover:text-green-700" href="{{ route('posts.user', $post->user->id) }}">
+                        {{ $post->user->name }}</a>
+                @else
+                    <a href="{{ route('toggleFollow', $post->user) }}"
+                       class="ml-3 inline font-bold text-sm px-6 py-2 text-white rounded bg-blue-500 hover:bg-blue-600">
+                        {{ __('Follow the post author') }}</a>
+                @endif
             @endif
         </div>
 

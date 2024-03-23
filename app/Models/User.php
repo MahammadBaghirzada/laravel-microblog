@@ -4,7 +4,9 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -49,8 +51,25 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
-    public function image()
+    public function image(): HasOne
     {
         return $this->hasOne(Image::class);
+    }
+
+    public function followers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'followers', 'following_id', 'follower_id');
+    }
+
+    public function following()
+    {
+        return $this->belongsToMany(User::class, 'followers', 'follower_id', 'following_id');
+    }
+
+    public function isFollowing($user)
+    {
+        return $this->following()
+            ->where('following_id', $user->getKey())
+            ->exists();
     }
 }
