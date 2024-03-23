@@ -4,10 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ $title ?? null }}</title>
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
 </head>
 
 <body class="font-sans antialiased">
@@ -51,8 +53,7 @@
             {{-- links --}}
             <div class="text-lg hidden md:flex space-x-6">
                 @if (Auth::check())
-                    <p>Logged as: <a class="hover:text-stone-500"
-                                     href="{{ route('dashboard') }}">{{ Auth::user()->name }}</a></p>
+                    <p>Logged as: <a class="hover:text-stone-500" href="{{ route('dashboard') }}">{{ Auth::user()->name }}</a></p>
                     <x-microblog.logout-form/>
                     <a href="{{ route('posts.create') }}"
                        class="inline font-bold text-sm px-6 py-2 text-white rounded-full bg-red-500 hover:bg-red-600">{{ __('New blog post') }}</a>
@@ -88,7 +89,6 @@
             </div>
         </div>
 
-
         {{ $slot }}
 
         {{-- footer --}}
@@ -96,6 +96,7 @@
             &copy; 2024 LaravelMicroBlog
         </footer>
     </div>
+    @livewireScripts
 </body>
 
 </html>
