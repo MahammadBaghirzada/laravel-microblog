@@ -4,10 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ $title ?? null }}</title>
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
 </head>
 
 <body class="font-sans antialiased">
@@ -29,30 +31,12 @@
                 <div class="text-3xl hidden md:block text-gray-600 font-medium ml-2 tracking-tight">
                     <a href="{{ url('/') }}">LaravelMicroBlog</a>
                 </div>
-                <div class="ml-4">
-                    <label>
-                        <input
-                            class="placeholder:italic placeholder:text-slate-400 bg-white w-full border-slate-300 rounded-md py-2 pl-9 pr-3 sm:text-sm"
-                            placeholder="Search for posts ..." type="text" name="search"/>
-                    </label>
-                    <ul class="bg-white border border-gray-100 mt-2 absolute">
-                        <li
-                            class="pl-8 pr-2 py-1 border-b-2 border-gray-100 relative hover:bg-yellow-50 hover:text-gray-900">
-                            <a href="{{ route('posts.show', 1) }}">Post title</a>
-                        </li>
-                        <li
-                            class="pl-8 pr-2 py-1 border-b-2 border-gray-100 relative hover:bg-yellow-50 hover:text-gray-900">
-                            <a href="{{ route('posts.show', 1) }}">Post title</a>
-                        </li>
-
-                    </ul>
-                </div>
+                <livewire:search />
             </div>
             {{-- links --}}
             <div class="text-lg hidden md:flex space-x-6">
                 @if (Auth::check())
-                    <p>Logged as: <a class="hover:text-stone-500"
-                                     href="{{ route('dashboard') }}">{{ Auth::user()->name }}</a></p>
+                    <p>Logged as: <a class="hover:text-stone-500" href="{{ route('dashboard') }}">{{ Auth::user()->name }}</a></p>
                     <x-microblog.logout-form/>
                     <a href="{{ route('posts.create') }}"
                        class="inline font-bold text-sm px-6 py-2 text-white rounded-full bg-red-500 hover:bg-red-600">{{ __('New blog post') }}</a>
@@ -88,7 +72,6 @@
             </div>
         </div>
 
-
         {{ $slot }}
 
         {{-- footer --}}
@@ -96,6 +79,7 @@
             &copy; 2024 LaravelMicroBlog
         </footer>
     </div>
+    @livewireScripts
 </body>
 
 </html>

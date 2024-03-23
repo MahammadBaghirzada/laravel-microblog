@@ -18,28 +18,7 @@
 
         <div class="flex mt-10">
 
-            <div class="flex">
-
-                <a title="undo like" class="cursor-pointer">
-                    <x-microblog.images.like-icon class="fill-green-500 hover:stroke-cyan-700" />
-
-                </a>
-
-                <a title="you disliked this" class="post">
-                    <x-microblog.images.like-icon class="fill-green-300" />
-                </a>
-
-
-                (13)
-                <a title="undo dislike" class="ml-2 cursor-pointer">
-                    <x-microblog.images.unlike-icon class="fill-red-500 hover:stroke-cyan-700" />
-                </a>
-
-                <a title="you like this post" class="ml-2">
-                    <x-microblog.images.unlike-icon class="fill-red-300" />
-                </a>
-                (3)
-            </div>
+            <livewire:like :post="$post" />
             @if (Auth::user() && Auth::user()->id != $post->user->id)
                 @if (Auth::user()->isFollowing($post->user))
                     You follow:&nbsp;<a class="text-green-500 hover:text-green-700" href="{{ route('posts.user', $post->user->id) }}">
