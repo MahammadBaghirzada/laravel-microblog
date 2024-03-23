@@ -1,6 +1,6 @@
 <div class="flex">
     @if (Auth::check())
-        <a title="undo like" class="cursor-pointer">
+        <a wire:click="undoLike" title="undo like" class="cursor-pointer">
             <x-microblog.images.like-icon class="fill-green-500 hover:stroke-cyan-700" />
 
         </a>
@@ -9,16 +9,22 @@
             <x-microblog.images.like-icon class="fill-green-300" />
         </a>
 
+        <a wire:click="like" title="like" class="cursor-pointer">
+            <x-microblog.images.like-icon class="fill-green-300 hover:stroke-cyan-700" />
+        </a>
 
-        (13)
-        <a title="undo dislike" class="ml-2 cursor-pointer">
+        ({{ $likes }})
+        <a wire:click="undoDislike" title="undo dislike" class="ml-2 cursor-pointer">
             <x-microblog.images.unlike-icon class="fill-red-500 hover:stroke-cyan-700" />
         </a>
 
         <a title="you like this post" class="ml-2">
             <x-microblog.images.unlike-icon class="fill-red-300" />
         </a>
-        (3)
+        <a wire:click="dislike" title="dislike" class="ml-2 cursor-pointer">
+            <x-microblog.images.unlike-icon class="fill-red-300 hover:stroke-cyan-700" />
+        </a>
+        ({{ $dislikes }})
     @else
         <a href="#" title="login to like" class="pointer-events-none">
             <x-microblog.images.like-icon class="fill-green-300" />
