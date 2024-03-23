@@ -14,7 +14,7 @@
                 <x-microblog.images.like-icon class="fill-green-300 hover:stroke-cyan-700" />
             </a>
         @endif
-        ({{ $likes }})
+        ({{ $post->usersThatLike()->count() }})
         @if ($isDisliked ?? false)
             <a wire:key="i2sliked-{{$post->id}}" wire:click="undoDislike" title="undo dislike" class="ml-2 cursor-pointer">
                 <x-microblog.images.unlike-icon class="fill-red-500 hover:stroke-cyan-700" />
@@ -28,17 +28,17 @@
                 <x-microblog.images.unlike-icon class="fill-red-300 hover:stroke-cyan-700" />
             </a>
         @endif
-        ({{ $dislikes }})
+        ({{ $post->usersThatDislike()->count() }})
     @else
         <a href="#" title="login to like" class="pointer-events-none">
             <x-microblog.images.like-icon class="fill-green-300" />
         </a>
-        (12)
+        ({{ $post->usersThatLike()->count() }})
         login to like
         <a href="#" title="login to dislike" class="ml-2 pointer-events-none">
             <x-microblog.images.unlike-icon class="fill-red-300" />
         </a>
-        (2)
+        ({{ $post->usersThatDislike()->count() }})
         login to dislike
     @endif
 </div>
