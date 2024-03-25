@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\RealTimeMessage;
 use App\Models\Post;
 use App\Models\User;
 use App\Notifications\NewPost;
@@ -39,6 +40,7 @@ class PostController extends Controller
         ]);
 
         $post = $request->user()->posts()->create($validated);
+        event(new RealTimeMessage('New post: <a href="'.route('posts.show',$post->id).'">'.$post->title.'</a>'));
         // foreach (User::whereNot('id', auth()->user()->id)->cursor() as $user) {
         //     $user->notify(new NewPost($post));
         // }
