@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\RealTimeMessage;
 use App\Models\Post;
 use App\Models\User;
+use App\Notifications\NewPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
@@ -33,11 +35,15 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => ['required', 'string', 'max:20'],
-            'content' => ['required', 'string', 'max:1000'],
+            'title' => 'required|string|max:20',
+            'content' => 'required|string|max:1000',
         ]);
 
-        $request->user()->posts()->create($validated);
+        $post = $request->user()->posts()->create($validated);
+        event(new RealTimeMessage('New post: <a href="'.route('posts.show',$post->id).'">'.$post->title.'</a>'));
+        // foreach (User::whereNot('id', auth()->user()->id)->cursor() as $user) {
+        //     $user->notify(new NewPost($post));
+        // }
         return redirect(route('posts.index'));
     }
 

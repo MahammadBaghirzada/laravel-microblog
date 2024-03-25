@@ -15,7 +15,7 @@
 <body class="font-sans antialiased">
 
     {{-- notification --}}
-    <div x-data="{ show: true, message: 'New blog posts has been written' }" x-show="show" x-init="setTimeout(() => show = false, 5000)" @close.window="show=false" x-transition class="flex justify-between m-auto w-3/4 text-blue-200 shadow-inner p-3 bg-blue-600">
+    <div x-data="{ show: false, message: '' }" x-show="show"  @close.window="show=false" x-transition @message-received.window="show=true; message=$event.detail.msg; setTimeout(() => show = false, 5000);" class="flex justify-between m-auto w-3/4 text-blue-200 shadow-inner p-3 bg-blue-600">
         <p><strong>Info </strong><span x-html="message"></span></p>
         <strong @click="$dispatch('close')" class="text-xl align-center cursor-pointer">&times;</strong>
     </div>
@@ -31,7 +31,7 @@
                 <div class="text-3xl hidden md:block text-gray-600 font-medium ml-2 tracking-tight">
                     <a href="{{ url('/') }}">LaravelMicroBlog</a>
                 </div>
-                <livewire:search />
+                <livewire:search/>
             </div>
             {{-- links --}}
             <div class="text-lg hidden md:flex space-x-6">
@@ -80,6 +80,20 @@
         </footer>
     </div>
     @livewireScripts
+    <script>
+        window.onload = function () {
+            Echo.private('channel-name')
+                .listen('RealTimeMessage', (e) => {
+                    var event = new CustomEvent('message-received', {
+                        detail: {
+                            msg: e.message
+                        }
+                    })
+                    window.dispatchEvent(event)
+                    //console.log(e.message);
+                })
+        }
+    </script>
 </body>
 
 </html>
