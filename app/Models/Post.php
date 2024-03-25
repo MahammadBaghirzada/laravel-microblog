@@ -24,12 +24,12 @@ class Post extends Model
 
     public function usersThatLike(): MorphToMany
     {
-        return $this->morphToMany(User::class, 'likeable');
+        return $this->morphToMany(User::class, 'likeable')->withPivot('id');
     }
 
     public function usersThatDislike(): MorphToMany
     {
-        return $this->morphToMany(User::class, 'dislikeable');
+        return $this->morphToMany(User::class, 'dislikeable')->withPivot('dislikeable_type');
     }
 
     public function isLiked()

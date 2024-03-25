@@ -15,7 +15,7 @@ class PostController extends Controller
     public function index()
     {
         return view('posts.index', [
-            'posts' => Post::query()->with('user')->paginate(3)
+            'posts' => Post::query()->withCount('usersThatLike')->with('user')->orderByDesc('users_that_like_count')->paginate(3)
         ]);
     }
 
@@ -58,6 +58,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        $this->authorize('update', $post);
+
         return view('posts.edit', [
             'post' => $post
         ]);
@@ -68,6 +70,8 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        $this->authorize('update', $post);
+
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:20'],
             'content' => ['required', 'string', 'max:1000'],
@@ -83,6 +87,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $this->authorize('delete', $post);
+
         $post->delete();
         return redirect(route('posts.index'));
     }
@@ -92,7 +98,7 @@ class PostController extends Controller
         $user = User::query()->find($id);
         App::setLocale($locale);
         return view('posts.index', [
-            'posts' => Post::query()->with('user')->where('user_id', $id)->paginate(3),
+            'posts' => Post::query()->withCount('usersThatLike')->with('user')->where('user_id',$id)->orderByDesc('users_that_like_count')->paginate(3),
             'user' => $user->name
         ]);
     }

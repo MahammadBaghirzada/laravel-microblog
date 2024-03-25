@@ -41,9 +41,11 @@
                         </div>
                         <div x-show="tab === 3"><b>Posts you liked:</b>
                             <ul>
-                                <li><a class="hover:text-stone-500" href="{{ route('posts.show', 1) }}">Liked post
-                                        title</a>
-                                </li>
+                                @foreach (Auth::user()->likedPosts()->get() as $lpost)
+                                    <li><a class="hover:text-stone-500" href="{{ route('posts.show', $lpost->id) }}">{{ $lpost->title }}
+                                            title</a>
+                                    </li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>
