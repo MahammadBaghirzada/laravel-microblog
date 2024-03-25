@@ -39,9 +39,9 @@ class PostController extends Controller
         ]);
 
         $post = $request->user()->posts()->create($validated);
-        foreach (User::query()->whereNot('id', auth()->user()->id)->cursor() as $user) {
-            $user->notify(new NewPost($post));
-        }
+        // foreach (User::whereNot('id', auth()->user()->id)->cursor() as $user) {
+        //     $user->notify(new NewPost($post));
+        // }
         return redirect(route('posts.index'));
     }
 
