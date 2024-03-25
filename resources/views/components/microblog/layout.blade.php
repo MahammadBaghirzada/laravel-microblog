@@ -80,6 +80,20 @@
         </footer>
     </div>
     @livewireScripts
+    <script>
+        window.onload = function() {
+            Echo.private('channel-name')
+                .listen('RealTimeMessage', (e) => {
+                    var event = new CustomEvent('message-received', {
+                        detail: {
+                            msg: e.message
+                        }
+                    })
+                    window.dispatchEvent(event)
+                    console.log(e.message);
+                })
+        }
+    </script>
 </body>
 
 </html>
