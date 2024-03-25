@@ -15,7 +15,7 @@ class PostController extends Controller
     public function index()
     {
         return view('posts.index', [
-            'posts' => Post::query()->with('user')->paginate(3)
+            'posts' => Post::query()->withCount('usersThatLike')->with('user')->orderByDesc('users_that_like_count')->paginate(3)
         ]);
     }
 
@@ -92,7 +92,7 @@ class PostController extends Controller
         $user = User::query()->find($id);
         App::setLocale($locale);
         return view('posts.index', [
-            'posts' => Post::query()->with('user')->where('user_id', $id)->paginate(3),
+            'posts' => Post::query()->withCount('usersThatLike')->with('user')->where('user_id',$id)->orderByDesc('users_that_like_count')->paginate(3),
             'user' => $user->name
         ]);
     }
