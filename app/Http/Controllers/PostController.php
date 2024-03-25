@@ -58,6 +58,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        $this->authorize('update', $post);
+
         return view('posts.edit', [
             'post' => $post
         ]);
@@ -68,6 +70,8 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        $this->authorize('update', $post);
+
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:20'],
             'content' => ['required', 'string', 'max:1000'],
@@ -83,6 +87,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $this->authorize('delete', $post);
+
         $post->delete();
         return redirect(route('posts.index'));
     }
