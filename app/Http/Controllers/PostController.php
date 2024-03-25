@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\User;
+use App\Notifications\NewPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
@@ -33,11 +34,14 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => ['required', 'string', 'max:20'],
-            'content' => ['required', 'string', 'max:1000'],
+            'title' => 'required|string|max:20',
+            'content' => 'required|string|max:1000',
         ]);
 
-        $request->user()->posts()->create($validated);
+        $post = $request->user()->posts()->create($validated);
+        foreach (User::query()->whereNot('id', auth()->user()->id)->cursor() as $user) {
+            $user->notify(new NewPost($post));
+        }
         return redirect(route('posts.index'));
     }
 
