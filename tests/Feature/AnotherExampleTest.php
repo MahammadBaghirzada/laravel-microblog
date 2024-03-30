@@ -94,4 +94,20 @@ class AnotherExampleTest extends TestCase
         $response = $this->get('/api/user');
         $response->assertOk();
     }
+
+    public function test_making_an_api_request_create_post()
+    {
+        Sanctum::actingAs(
+            User::factory()->create(),
+        );
+
+        $response = $this->postJson('/api/posts/create', [
+            'title' => 'Post title',
+            'content' => 'Post content'
+        ]);
+
+        $response->assertJson([
+            'post' => true,
+        ]);
+    }
 }
