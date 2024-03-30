@@ -9,6 +9,7 @@ use App\Notifications\NewPost;
 use App\Services\ExampleService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Hash;
 
 class PostController extends Controller
 {
@@ -124,5 +125,10 @@ class PostController extends Controller
     public function exampleTest(ExampleService $service)
     {
         return $service->execute();
+    }
+
+    public function exampleTest2()
+    {
+        return Hash::make('a');
     }
 }

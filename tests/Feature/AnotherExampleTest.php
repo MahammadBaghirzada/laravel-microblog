@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Services\ExampleService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 use Tests\TestCase;
@@ -135,5 +136,16 @@ class AnotherExampleTest extends TestCase
         });
         $response = $this->get('/test');
         $response->assertSee('fake return');
+    }
+
+    public function test_mock_facade()
+    {
+        Hash::shouldReceive('make')
+            ->once()
+            ->with('a')
+            ->andReturn('value');
+
+        $response = $this->get('/test2');
+        $response->assertSee('value');
     }
 }
