@@ -6,6 +6,7 @@ use App\Events\RealTimeMessage;
 use App\Models\Post;
 use App\Models\User;
 use App\Notifications\NewPost;
+use App\Services\ExampleService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
@@ -118,5 +119,10 @@ class PostController extends Controller
             $loggedInUser->following()->attach($user);
         }
         return back();
+    }
+
+    public function exampleTest(ExampleService $service)
+    {
+        return $service->execute();
     }
 }

@@ -3,9 +3,11 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Services\ExampleService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
+use Mockery\MockInterface;
 use Tests\TestCase;
 
 class AnotherExampleTest extends TestCase
@@ -124,5 +126,14 @@ class AnotherExampleTest extends TestCase
             ['status' => 'Status 2']
         );
         $view->assertSee('Status 2');
+    }
+
+    public function test_mock_service()
+    {
+        $this->mock(ExampleService::class, function(MockInterface $mock) {
+            $mock->shouldReceive('execute')->once()->andReturn('fake return');
+        });
+        $response = $this->get('/test');
+        $response->assertSee('fake return');
     }
 }

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+Route::get('/test', [PostController::class, 'exampleTest']);
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
 Route::get('/posts/user/{id}/{locale?}', [PostController::class, 'user'])->name('posts.user');
 Route::get('/toggleFollow/{user}', [PostController::class, 'toggleFollow'])->middleware(['auth', 'verified'])->name('toggleFollow');
