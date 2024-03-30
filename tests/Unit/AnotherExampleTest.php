@@ -49,11 +49,11 @@ class AnotherExampleTest extends TestCase
 
     public function testEquals4()
     {
-        $expected = new \stdClass();
+        $expected = new \stdClass;
         $expected->foo = 'foo';
         $expected->bar = 'bar';
 
-        $actual = new \stdClass();
+        $actual = new \stdClass;
         $actual->foo = 'foo';
         $actual->bar = 'bar';
 
@@ -72,7 +72,7 @@ class AnotherExampleTest extends TestCase
 
     public function testAdd()
     {
-        $calc = new Calculator();
+        $calc = new Calculator;
         $this->assertEquals(2, $calc->add(1,1));
     }
 }

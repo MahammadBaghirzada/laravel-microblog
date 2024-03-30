@@ -14,6 +14,7 @@
                 <x-microblog.images.like-icon class="fill-green-300 hover:stroke-cyan-700" />
             </a>
         @endif
+        {{--{{  dd($post->usersThatLike()->get()[0]->pivot->id) }}--}}
         ({{ $post->usersThatLike()->count() }})
         @if ($isDisliked ?? false)
             <a wire:key="i2sliked-{{$post->id}}" wire:click="undoDislike" title="undo dislike" class="ml-2 cursor-pointer">
