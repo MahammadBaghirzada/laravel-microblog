@@ -1,0 +1,5 @@
+composer install
+npm install
+php artisan serve
+npm run dev
+Remember about database credentials in .env file

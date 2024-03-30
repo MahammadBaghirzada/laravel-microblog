@@ -11,7 +11,7 @@
     </div>
 
     {{-- posts --}}
-    @foreach($posts as $post)
+    @foreach ($posts as $post)
         <div class="my-14 flex flex-col md:flex-row">
             <p class="mb-8 text-gray-500 mr-20">{{ $post->created_at->format('d M Y') }}</p>
             <div class="space-y-4">
@@ -25,10 +25,10 @@
                             <x-microblog.images.edit-icon />
                         </a>
 
-                        <form method="POST" action="{{ route('posts.destroy', $post->id) }}">
+                        <form method="POST" action="{{ route('posts.destroy', $post) }}">
                             @csrf
                             @method('delete')
-                            <button type="submit" href="{{ route('posts.destroy', $post->id) }}"
+                            <button type="submit" href="{{ route('posts.destroy', $post) }}"
                                     onclick="return confirm('Are you sure?')" title="delete" class="cursor-pointer">
                                 <x-microblog.images.delete-icon />
                             </button>
@@ -42,5 +42,4 @@
     @endforeach
     <br>
     {{ $posts->links() }}
-
 </x-microblog.layout>

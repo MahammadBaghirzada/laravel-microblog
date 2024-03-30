@@ -7,6 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ $title ?? null }}</title>
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
@@ -26,18 +27,18 @@
         <header class="flex justify-between items-center">
             {{-- logo, search --}}
             <div class="flex items-center">
-                <x-microblog.images.laravel-logo/>
+                <x-microblog.images.laravel-logo />
 
                 <div class="text-3xl hidden md:block text-gray-600 font-medium ml-2 tracking-tight">
                     <a href="{{ url('/') }}">LaravelMicroBlog</a>
                 </div>
-                <livewire:search/>
+                <livewire:search />
             </div>
             {{-- links --}}
             <div class="text-lg hidden md:flex space-x-6">
                 @if (Auth::check())
                     <p>Logged as: <a class="hover:text-stone-500" href="{{ route('dashboard') }}">{{ Auth::user()->name }}</a></p>
-                    <x-microblog.logout-form/>
+                    <x-microblog.logout-form />
                     <a href="{{ route('posts.create') }}"
                        class="inline font-bold text-sm px-6 py-2 text-white rounded-full bg-red-500 hover:bg-red-600">{{ __('New blog post') }}</a>
                 @else
@@ -79,6 +80,7 @@
             &copy; 2024 LaravelMicroBlog
         </footer>
     </div>
+
     @livewireScripts
     <script>
         window.onload = function () {
@@ -94,6 +96,7 @@
                 })
         }
     </script>
+
 </body>
 
 </html>
