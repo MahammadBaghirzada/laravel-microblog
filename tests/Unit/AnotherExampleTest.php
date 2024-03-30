@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Calculator;
 use PHPUnit\Framework\TestCase;
 
 class AnotherExampleTest extends TestCase
@@ -67,5 +68,11 @@ class AnotherExampleTest extends TestCase
     public function testLessThan()
     {
         $this->assertLessThan(2,1);
+    }
+
+    public function testAdd()
+    {
+        $calc = new Calculator();
+        $this->assertEquals(2, $calc->add(1,1));
     }
 }
