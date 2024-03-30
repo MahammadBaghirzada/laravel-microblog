@@ -2,10 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Events\RealTimeMessage;
 use App\Models\User;
 use App\Services\ExampleService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
@@ -147,5 +149,20 @@ class AnotherExampleTest extends TestCase
 
         $response = $this->get('/test2');
         $response->assertSee('value');
+    }
+
+    public function test_event_mock()
+    {
+        $user = User::factory()->create();
+
+        $this->post('/login', [
+            'email' => $user->email,
+            'password' => 'password',
+        ]);
+
+        Event::fake();
+        $this->actingAs($user)->post('/posts',['title' => 'Post title', 'content' => 'Post content']);
+
+        Event::assertDispatched(RealTimeMessage::class);
     }
 }
