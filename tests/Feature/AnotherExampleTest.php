@@ -74,4 +74,13 @@ class AnotherExampleTest extends TestCase
 
         $response->assertSee('Saved');
     }
+
+    public function test_dump()
+    {
+        $response = $this->get('/');
+        $response->assertStatus(200);
+        //$response->dump();
+        //$response->dumpSession();
+        //$response->dumpHeaders();
+    }
 }
