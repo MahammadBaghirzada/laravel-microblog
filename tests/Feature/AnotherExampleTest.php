@@ -60,4 +60,18 @@ class AnotherExampleTest extends TestCase
     {
         $this->assertDatabaseCount('users', 0);
     }
+
+    public function test_session()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->post('/login', [
+            'email' => $user->email,
+            'password' => 'password',
+        ]);
+
+        $response = $this->actingAs($user)->withSession(["status" => 'profile-updated'])->get('/profile');
+
+        $response->assertSee('Saved');
+    }
 }
