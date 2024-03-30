@@ -116,4 +116,13 @@ class AnotherExampleTest extends TestCase
         $view = $this->view('posts.create', ['errors' => null]);
         $view->assertSee('New blog post');
     }
+
+    public function test_component()
+    {
+        $view = $this->blade(
+            '<x-auth-session-status :status="$status" />',
+            ['status' => 'Status 2']
+        );
+        $view->assertSee('Status 2');
+    }
 }
