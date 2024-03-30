@@ -9,6 +9,7 @@ use Tests\TestCase;
 
 class AnotherExampleTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      */
@@ -51,5 +52,12 @@ class AnotherExampleTest extends TestCase
         $response->assertRedirect('dashboard');
         $response = $this->actingAs($user)->get('/dashboard');
         $response->assertSee('You\'re logged in!');
+
+        $this->assertDatabaseCount('users', 1);
+    }
+
+    public function test_database_count()
+    {
+        $this->assertDatabaseCount('users', 0);
     }
 }
