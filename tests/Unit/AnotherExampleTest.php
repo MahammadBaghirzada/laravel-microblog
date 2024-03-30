@@ -58,4 +58,14 @@ class AnotherExampleTest extends TestCase
 
         $this->assertEquals($expected, $actual);
     }
+
+    public function testGreaterThan()
+    {
+        $this->assertGreaterThan(1,2);
+    }
+
+    public function testLessThan()
+    {
+        $this->assertLessThan(2,1);
+    }
 }
