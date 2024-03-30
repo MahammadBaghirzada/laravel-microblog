@@ -24,4 +24,10 @@ class AnotherExampleTest extends TestCase
     {
         $this->assertCount(1, ['foo']);
     }
+
+    public function testEmpty()
+    {
+        $this->assertEmpty([]);
+        $this->assertNotEmpty([1]);
+    }
 }
