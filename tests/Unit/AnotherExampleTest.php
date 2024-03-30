@@ -30,4 +30,32 @@ class AnotherExampleTest extends TestCase
         $this->assertEmpty([]);
         $this->assertNotEmpty([1]);
     }
+
+    public function testEquals1()
+    {
+        $this->assertEquals(1, 1);
+    }
+
+    public function testEquals2()
+    {
+        $this->assertEquals('bar', 'bar');
+    }
+
+    public function testEquals3()
+    {
+        $this->assertEquals(['a', 'b', 'c'], ['a', 'b', 'c']);
+    }
+
+    public function testEquals4()
+    {
+        $expected = new \stdClass();
+        $expected->foo = 'foo';
+        $expected->bar = 'bar';
+
+        $actual = new \stdClass();
+        $actual->foo = 'foo';
+        $actual->bar = 'bar';
+
+        $this->assertEquals($expected, $actual);
+    }
 }
