@@ -110,4 +110,10 @@ class AnotherExampleTest extends TestCase
             'post' => true,
         ]);
     }
+
+    public function test_view()
+    {
+        $view = $this->view('posts.create', ['errors' => null]);
+        $view->assertSee('New blog post');
+    }
 }
